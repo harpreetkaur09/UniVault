@@ -95,6 +95,23 @@ The main objective of UniVault is to provide a centralized platform for organizi
 
 ## Repository
 
+## Application Screenshots
+
+### 1. Home Page
+![Home Page](screenshots/home-page.png)
+
+### 2. Login Page
+![Login Page](screenshots/login-page.png)
+
+### 3. Projects Page
+![Projects Page](screenshots/projects-page.png)
+
+### 4. Admin Dashboard
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+### 5. Dark Theme
+![Dark Theme](screenshots/dark-theme.png)
+
 GitHub: https://github.com/harpreetkaur09/UniVault
 
 ---
