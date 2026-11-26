@@ -1,0 +1,18 @@
+const mongoose = require("mongoose");
+const { mongoUri } = require("./env");
+const seedAdmin = require("../seed");
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(mongoUri);
+    console.log(`MongoDB connected: ${conn.connection.host}`);
+
+    await seedAdmin();
+    await seedAdmin.seedTeacher();
+  } catch (error) {
+    console.error(`MongoDB connection error: ${error.message}`);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB;

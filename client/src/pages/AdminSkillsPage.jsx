@@ -1,0 +1,108 @@
+import { useState, useEffect, useCallback } from "react";
+import { useSearchParams } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { toast } from "react-hot-toast";
+import { FiPlus, FiCode } from "react-icons/fi";
+
+import AdminPageHeader from "../components/admin/AdminPageHeader";
+import SkillTable from "../components/admin/SkillTable";
+import SkillForm from "../components/admin/SkillForm";
+import * as skillService from "../services/skillService";
+
+const AdminSkillsPage = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [skills, setSkills] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [editingSkill, setEditingSkill] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const fetchSkills = useCallback(async () => {
+    try {
+      setIsLoading(true);
+      const res = await skillService.getSkills();
+      setSkills(res.data?.data || []);
+    } catch (error) {
+      toast.error("Failed to load skills");
+      console.error("Failed to fetch skills:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchSkills();
+  }, [fetchSkills]);
+
+  useEffect(() => {
+    if (searchParams.get("action") === "new") {
+      setEditingSkill(null);
+      setIsFormOpen(true);
+      setSearchParams({}, { replace: true });
+    }
+  }, [searchParams, setSearchParams]);
+
+  const handleAddNew = () => {
+    setEditingSkill(null);
+    setIsFormOpen(true);
+  };
+
+  const handleEdit = (skill) => {
+    setEditingSkill(skill);
+    setIsFormOpen(true);
+  };
+
+  const handleDelete = async (skillId) => {
+    try {
+      await skillService.deleteSkill(skillId);
+      toast.success("Skill deleted");
+      fetchSkills();
+    } catch (error) {
+      toast.error(error.message || "Failed to delete skill");
+    }
+  };
+
+  return (
+    <>
+      <Helmet>
+        <title>Skills | Admin</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+
+      <AdminPageHeader
+        icon={FiCode}
+        title="Manage Skills"
+        description={`${skills.length} skill${skills.length === 1 ? "" : "s"} shown on your portfolio`}
+        actions={
+          <button
+            type="button"
+            onClick={handleAddNew}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-primary-500 text-white font-medium text-sm hover:bg-primary-600 transition-colors shadow-lg shadow-primary-500/20"
+          >
+            <FiPlus className="w-4 h-4" />
+            Add New Skill
+          </button>
+        }
+      />
+
+      <SkillTable
+        skills={skills}
+        isLoading={isLoading}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+        onAddNew={handleAddNew}
+      />
+
+      <SkillForm
+        isOpen={isFormOpen}
+        onClose={() => {
+          setIsFormOpen(false);
+          setEditingSkill(null);
+        }}
+        editingSkill={editingSkill}
+        onSuccess={fetchSkills}
+      />
+    </>
+  );
+};
+
+export default AdminSkillsPage;
