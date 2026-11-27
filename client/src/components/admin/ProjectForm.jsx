@@ -8,8 +8,13 @@ import ConfirmModal from "../ui/ConfirmModal";
 import Spinner from "../ui/Spinner";
 import * as projectService from "../../services/projectService";
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 const INITIAL_FORM_DATA = {
   title: "",
+  studentName: "",
+  rollNumber: "",
+  studentEmail: "",
   description: "",
   tech: [],
   liveUrl: "",
@@ -52,6 +57,9 @@ const ProjectForm = ({ isOpen, onClose, editingProject, onSuccess }) => {
     if (editingProject) {
       const data = {
         title: editingProject.title || "",
+        studentName: editingProject.studentName || "",
+        rollNumber: editingProject.rollNumber || "",
+        studentEmail: editingProject.studentEmail || "",
         description: editingProject.description || "",
         tech: editingProject.tech || [],
         liveUrl: editingProject.liveUrl || "",
@@ -168,6 +176,18 @@ const ProjectForm = ({ isOpen, onClose, editingProject, onSuccess }) => {
     }
     if (formData.title.length > 100) {
       toast.error("Title must be under 100 characters");
+      return false;
+    }
+    if (!formData.studentName.trim()) {
+      toast.error("Student name is required");
+      return false;
+    }
+    if (!formData.rollNumber.trim()) {
+      toast.error("Roll number is required");
+      return false;
+    }
+    if (!EMAIL_REGEX.test(formData.studentEmail.trim())) {
+      toast.error("Enter a valid student email");
       return false;
     }
     if (!formData.description.trim()) {
@@ -293,6 +313,74 @@ const ProjectForm = ({ isOpen, onClose, editingProject, onSuccess }) => {
                     placeholder="My Awesome Project"
                     className="w-full px-4 py-2.5 rounded-lg bg-dark-800 border border-dark-700 text-dark-50 placeholder-dark-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-sm"
                   />
+                </div>
+
+                {/* Student details */}
+                <div className="rounded-xl border border-dark-800 p-4 space-y-4">
+                  <h3 className="text-sm font-semibold text-dark-100">
+                    Student details
+                  </h3>
+
+                  <div>
+                    <label
+                      htmlFor="pf-studentName"
+                      className="block text-sm font-medium text-dark-300 mb-1.5"
+                    >
+                      Student Name <span className="text-error-500">*</span>
+                    </label>
+                    <input
+                      id="pf-studentName"
+                      name="studentName"
+                      type="text"
+                      required
+                      maxLength={100}
+                      value={formData.studentName}
+                      onChange={handleChange}
+                      placeholder="Rahul Sharma"
+                      className="w-full px-4 py-2.5 rounded-lg bg-dark-800 border border-dark-700 text-dark-50 placeholder-dark-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-sm"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label
+                        htmlFor="pf-rollNumber"
+                        className="block text-sm font-medium text-dark-300 mb-1.5"
+                      >
+                        Roll Number <span className="text-error-500">*</span>
+                      </label>
+                      <input
+                        id="pf-rollNumber"
+                        name="rollNumber"
+                        type="text"
+                        required
+                        maxLength={30}
+                        value={formData.rollNumber}
+                        onChange={handleChange}
+                        placeholder="2201234"
+                        className="w-full px-4 py-2.5 rounded-lg bg-dark-800 border border-dark-700 text-dark-50 placeholder-dark-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-sm"
+                      />
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="pf-studentEmail"
+                        className="block text-sm font-medium text-dark-300 mb-1.5"
+                      >
+                        Student Email <span className="text-error-500">*</span>
+                      </label>
+                      <input
+                        id="pf-studentEmail"
+                        name="studentEmail"
+                        type="email"
+                        required
+                        value={formData.studentEmail}
+                        onChange={handleChange}
+                        placeholder="student@example.com"
+                        className="w-full px-4 py-2.5 rounded-lg bg-dark-800 border border-dark-700 text-dark-50 placeholder-dark-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors text-sm"
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 {/* Description */}

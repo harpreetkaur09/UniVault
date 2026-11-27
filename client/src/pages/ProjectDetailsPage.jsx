@@ -9,6 +9,9 @@ import {
   FiExternalLink,
   FiGithub,
   FiAlertCircle,
+  FiUser,
+  FiMail,
+  FiHash,
 } from "react-icons/fi";
 
 import GlassCard from "../components/ui/GlassCard";
@@ -172,6 +175,37 @@ const ProjectDetailsPage = () => {
                     </span>
                   )}
                 </div>
+
+                {(project.studentName || project.studentEmail) && (
+                  <div className="rounded-xl border border-dark-700 bg-dark-900/40 p-4 mb-6 space-y-2 text-sm">
+                    <p className="text-xs font-mono uppercase tracking-wider text-dark-500">
+                      Created by
+                    </p>
+                    {project.studentName && (
+                      <p className="flex items-center gap-2 text-dark-100">
+                        <FiUser className="text-primary-400 shrink-0" />
+                        {project.studentName}
+                      </p>
+                    )}
+                    {project.rollNumber && (
+                      <p className="flex items-center gap-2 text-dark-300">
+                        <FiHash className="text-primary-400 shrink-0" />
+                        Roll No: <span className="font-mono">{project.rollNumber}</span>
+                      </p>
+                    )}
+                    {project.studentEmail && (
+                      <p className="flex items-center gap-2 text-dark-300 min-w-0">
+                        <FiMail className="text-primary-400 shrink-0" />
+                        <a
+                          href={`mailto:${project.studentEmail}`}
+                          className="text-primary-400 hover:underline break-all"
+                        >
+                          {project.studentEmail}
+                        </a>
+                      </p>
+                    )}
+                  </div>
+                )}
 
                 <p className="text-dark-300 leading-relaxed whitespace-pre-wrap mb-6 flex-1">
                   {project.description}

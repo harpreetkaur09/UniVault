@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const URL_REGEX = /^(https?:\/\/)?([\w-]+\.)+[\w-]{2,}(\/\S*)?$/;
 
 const projectSchema = new mongoose.Schema(
@@ -15,6 +16,28 @@ const projectSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+    },
+    studentName: {
+      type: String,
+      default: "",
+      trim: true,
+      maxlength: [100, "Student name cannot exceed 100 characters"],
+    },
+    rollNumber: {
+      type: String,
+      default: "",
+      trim: true,
+      maxlength: [30, "Roll number cannot exceed 30 characters"],
+    },
+    studentEmail: {
+      type: String,
+      default: "",
+      trim: true,
+      lowercase: true,
+      validate: {
+        validator: (v) => !v || EMAIL_REGEX.test(v),
+        message: "Student email must be a valid email address",
+      },
     },
     description: {
       type: String,
@@ -91,5 +114,7 @@ projectSchema.pre("save", async function () {
 
 projectSchema.index({ featured: 1, order: 1 });
 projectSchema.index({ status: 1 });
+projectSchema.index({ rollNumber: 1 });
+projectSchema.index({ studentEmail: 1 });
 
 module.exports = mongoose.model("Project", projectSchema);

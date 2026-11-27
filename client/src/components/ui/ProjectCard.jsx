@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiArrowRight, FiCode } from "react-icons/fi";
+import { FiArrowRight, FiCode, FiUser } from "react-icons/fi";
 import GlassCard from "./GlassCard";
 import TechBadge from "./TechBadge";
 
@@ -58,6 +58,16 @@ const ProjectCard = ({ project, index = 0 }) => {
             <h3 className="text-lg font-semibold text-dark-50 mb-2 line-clamp-1 group-hover:text-primary-400">
               {project.title}
             </h3>
+
+            {project.studentName && (
+              <p className="flex items-center gap-1.5 text-xs text-dark-300 mb-2">
+                <FiUser size={12} className="text-primary-400 shrink-0" />
+                <span className="truncate">
+                  {project.studentName}
+                  {project.rollNumber ? ` · ${project.rollNumber}` : ""}
+                </span>
+              </p>
+            )}
 
             <p className="text-dark-400 text-sm leading-relaxed line-clamp-2 mb-4">
               {project.description}

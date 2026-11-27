@@ -104,6 +104,9 @@ const swaggerDefinition = {
             type: "string",
             example: "Web app to issue and return college library books",
           },
+          studentName: { type: "string", example: "Rahul Sharma" },
+          rollNumber: { type: "string", example: "2201234" },
+          studentEmail: { type: "string", format: "email", example: "rahul@example.com" },
           tech: {
             type: "array",
             items: { type: "string" },
@@ -139,7 +142,7 @@ const swaggerDefinition = {
       },
       CreateProjectRequest: {
         type: "object",
-        required: ["title", "description", "tech"],
+        required: ["title", "studentName", "rollNumber", "studentEmail", "description", "tech"],
         properties: {
           title: {
             type: "string",
@@ -151,6 +154,9 @@ const swaggerDefinition = {
             maxLength: 1000,
             example: "Web app to issue and return college library books",
           },
+          studentName: { type: "string", maxLength: 100, example: "Rahul Sharma" },
+          rollNumber: { type: "string", maxLength: 30, example: "2201234" },
+          studentEmail: { type: "string", format: "email", example: "rahul@example.com" },
           tech: {
             type: "array",
             items: { type: "string", maxLength: 30 },
@@ -173,6 +179,9 @@ const swaggerDefinition = {
         properties: {
           title: { type: "string", maxLength: 100 },
           description: { type: "string", maxLength: 1000 },
+          studentName: { type: "string", maxLength: 100 },
+          rollNumber: { type: "string", maxLength: 30 },
+          studentEmail: { type: "string", format: "email" },
           tech: {
             type: "array",
             items: { type: "string", maxLength: 30 },

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiArrowRight } from "react-icons/fi";
+import { FiArrowRight, FiUser } from "react-icons/fi";
 import GlassCard from "./GlassCard";
 import TechBadge from "./TechBadge";
 
@@ -47,6 +47,16 @@ const FeaturedProjectCard = ({ project, index }) => {
                 {project.title}
               </h3>
             </Link>
+
+            {project.studentName && (
+              <p className="flex items-center gap-2 text-sm text-dark-300 mb-3">
+                <FiUser size={14} className="text-primary-400 shrink-0" />
+                <span>
+                  {project.studentName}
+                  {project.rollNumber ? ` · Roll ${project.rollNumber}` : ""}
+                </span>
+              </p>
+            )}
 
             <p className="text-dark-300 leading-relaxed mb-4 line-clamp-4">
               {project.description}

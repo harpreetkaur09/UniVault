@@ -22,6 +22,8 @@ import {
   FiLayers,
   FiAlertCircle,
   FiFolder,
+  FiUser,
+  FiMail,
 } from "react-icons/fi";
 
 import GlassCard from "../components/ui/GlassCard";
@@ -348,6 +350,28 @@ const AdminProjectDetailsPage = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            <GlassCard>
+              <h2 className="text-base font-semibold text-dark-50 mb-2">Student</h2>
+              <InfoRow icon={FiUser} label="Name">
+                {project.studentName || "—"}
+              </InfoRow>
+              <InfoRow icon={FiHash} label="Roll number">
+                <span className="font-mono">{project.rollNumber || "—"}</span>
+              </InfoRow>
+              <InfoRow icon={FiMail} label="Email">
+                {project.studentEmail ? (
+                  <a
+                    href={`mailto:${project.studentEmail}`}
+                    className="text-primary-400 hover:underline break-all"
+                  >
+                    {project.studentEmail}
+                  </a>
+                ) : (
+                  "—"
+                )}
+              </InfoRow>
+            </GlassCard>
+
             <GlassCard>
               <h2 className="text-base font-semibold text-dark-50 mb-2">Project info</h2>
               <InfoRow icon={FiEye} label="Status">

@@ -3,6 +3,9 @@ const { saveImage, deleteImage } = require("../utils/imageStore");
 
 const ALLOWED_FIELDS = [
   "title",
+  "studentName",
+  "rollNumber",
+  "studentEmail",
   "description",
   "tech",
   "liveUrl",
@@ -34,6 +37,17 @@ const getAllProjects = async (req, res, next) => {
 
     if (req.query.tech) {
       filter.tech = req.query.tech;
+    }
+
+    if (req.query.search) {
+      const term = String(req.query.search).trim().slice(0, 100);
+      const rx = new RegExp(term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+      filter.$or = [
+        { title: rx },
+        { studentName: rx },
+        { rollNumber: rx },
+        { studentEmail: rx },
+      ];
     }
 
     const page = Math.max(1, parseInt(req.query.page, 10) || 1);

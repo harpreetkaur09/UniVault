@@ -87,6 +87,7 @@ const ProjectTable = ({
               <tr className="bg-dark-800/50 text-dark-400 text-xs uppercase tracking-wider font-medium">
                 <th className="w-16 px-4 py-3 text-left">Image</th>
                 <th className="px-4 py-3 text-left">Title</th>
+                <th className="px-4 py-3 text-left">Student</th>
                 <th className="w-28 px-4 py-3 text-left">Status</th>
                 <th className="w-20 px-4 py-3 text-center">Featured</th>
                 <th className="w-16 px-4 py-3 text-center">Order</th>
@@ -128,6 +129,32 @@ const ProjectTable = ({
                     <div className="text-dark-500 text-xs font-mono">
                       {project.slug}
                     </div>
+                  </td>
+
+                  {/* Student */}
+                  <td className="px-4 py-3">
+                    {project.studentName ? (
+                      <>
+                        <div className="text-sm text-dark-100">
+                          {project.studentName}
+                        </div>
+                        <div className="text-xs text-dark-400 font-mono">
+                          Roll: {project.rollNumber || "—"}
+                        </div>
+                        {project.studentEmail && (
+                          <a
+                            href={`mailto:${project.studentEmail}`}
+                            className="text-xs text-primary-400 hover:underline break-all"
+                          >
+                            {project.studentEmail}
+                          </a>
+                        )}
+                      </>
+                    ) : (
+                      <span className="text-xs text-dark-500 italic">
+                        Not added
+                      </span>
+                    )}
                   </td>
 
                   {/* Status */}
